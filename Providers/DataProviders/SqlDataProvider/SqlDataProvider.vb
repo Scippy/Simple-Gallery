@@ -20,6 +20,7 @@ Namespace Ventrian.SimpleGallery
 
         Inherits DataProvider
 
+
 #Region " Private Members "
 
         Private Const ProviderType As String = "data"
@@ -103,11 +104,15 @@ Namespace Ventrian.SimpleGallery
         Public Overrides Function GetRandomPhoto(ByVal moduleID As Integer, ByVal albumID As Integer, ByVal rowCount As Integer, ByVal tagID As Integer) As IDataReader
             Return CType(SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner & ObjectQualifier & "DnnForge_SimpleGallery_GetRandomPhoto", albumID, moduleID, rowCount, GetNull(tagID)), IDataReader)
         End Function
-
+        Public Overrides Function GetRandomPhotoPublicOrPrivate(ByVal moduleID As Integer, ByVal albumID As Integer, ByVal rowCount As Integer, ByVal tagID As Integer, ByVal isPublic As Boolean) As IDataReader
+            Return CType(SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner & ObjectQualifier & "DnnForge_SimpleGallery_GetRandomPhotoPublicOrPrivate", albumID, moduleID, rowCount, GetNull(tagID), isPublic), IDataReader)
+        End Function
         Public Overrides Function ListPhoto(ByVal moduleID As Integer, ByVal albumID As Integer, ByVal isApproved As Boolean, ByVal maxCount As Integer, ByVal showAll As Boolean, ByVal tagID As Integer, ByVal batchID As String, ByVal search As String, ByVal sortBy As Integer, ByVal sortOrder As Integer) As IDataReader
             Return CType(SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner & ObjectQualifier & "DnnForge_SimpleGallery_PhotoList", moduleID, GetNull(albumID), isApproved, GetNull(maxCount), showAll, GetNull(tagID), GetNull(batchID), GetNull(search), sortBy, sortOrder), IDataReader)
         End Function
-
+        Public Overrides Function PhotoListLatest(ByVal moduleID As Integer, ByVal albumID As Integer, ByVal isApproved As Boolean, ByVal maxCount As Integer, ByVal showAll As Boolean, ByVal tagID As Integer, ByVal batchID As String, ByVal search As String, ByVal sortBy As Integer, ByVal sortOrder As Integer, ByVal isPublic As Boolean) As IDataReader
+            Return CType(SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner & ObjectQualifier & "DnnForge_SimpleGallery_PhotoListLatest", moduleID, GetNull(albumID), isApproved, GetNull(maxCount), showAll, GetNull(tagID), GetNull(batchID), GetNull(search), sortBy, sortOrder, isPublic), IDataReader)
+        End Function
         Public Overrides Function AddPhoto(ByVal moduleID As Integer, ByVal albumID As Integer, ByVal name As String, ByVal description As String, ByVal fileName As String, ByVal dateCreated As DateTime, ByVal width As Integer, ByVal height As Integer, ByVal authorID As Integer, ByVal approverID As Integer, ByVal isApproved As Boolean, ByVal dateApproved As DateTime, ByVal dateUpdated As DateTime, ByVal batchID As String) As Integer
             Return CType(SqlHelper.ExecuteScalar(ConnectionString, DatabaseOwner & ObjectQualifier & "DnnForge_SimpleGallery_PhotoAdd", moduleID, albumID, name, GetNull(description), fileName, dateCreated, width, height, GetNull(authorID), GetNull(approverID), isApproved, GetNull(dateApproved), GetNull(dateUpdated), GetNull(batchID)), Integer)
         End Function

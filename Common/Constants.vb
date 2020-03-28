@@ -82,6 +82,8 @@ Namespace Ventrian.SimpleGallery.Common
             & "[PHOTOWITHBORDER]" _
             & "[EDIT]<span class=""Normal"">[TITLE]</span>"
 
+        Public Const SETTING_TEMPLATE_HEADER As String = "TemplateHeader"
+        Public Const SETTING_TEMPLATE_FOOTER As String = "TemplateFooter"
         Public Const SETTING_ALBUM_DEFAULT_PATH As String = "DefaultAlbumPath"
         Public Const SETTING_LIGHTBOX_DEFAULT_PATH As String = "DefaultLightboxPath"
         Public Const SETTING_RESIZE_PHOTO As String = "ResizePhoto"
@@ -155,6 +157,8 @@ Namespace Ventrian.SimpleGallery.Common
         Public Const SETTING_APPROVE_ROLES As String = "ApproveRoles"
         Public Const SETTING_ALBUM_ROLES As String = "AlbumRoles"
 
+        Public Const SETTING_PUBLIC_MODE As String = "PublicMode"
+
         Public Const SETTING_RANDOM_MODE As String = "RandomMode"
         Public Const SETTING_RANDOM_DISPLAY As String = "RandomDisplay"
         Public Const SETTING_RANDOM_COMPRESSION As String = "RandomCompression"
@@ -176,6 +180,8 @@ Namespace Ventrian.SimpleGallery.Common
         Public Const SETTING_RANDOM_LAUNCH_SLIDESHOW As String = "RandomLaunchSlideshow"
         Public Const SETTING_RANDOM_ALBUM_SLIDESHOW As String = "RandomAlbumSlideshow"
         Public Const SETTING_RANDOM_INCLUDE_JQUERY As String = "RandomIncludeJQuery"
+
+        Public Const DEFAULT_PUBLIC_MODE As ModeType = PublicModeType.ShowPublic
 
         Public Const DEFAULT_RANDOM_MODE As ModeType = ModeType.Latest
         Public Const DEFAULT_RANDOM_DISPLAY As DisplayType = DisplayType.Photo

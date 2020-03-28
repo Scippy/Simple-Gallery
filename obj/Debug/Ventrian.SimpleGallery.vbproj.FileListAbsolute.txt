@@ -1,0 +1,14 @@
+C:\inetpub\wwwroot\Ventrian\bin\Ventrian.SimpleGallery.dll.config
+C:\inetpub\wwwroot\Ventrian\bin\Ventrian.SimpleGallery.dll
+C:\inetpub\wwwroot\Ventrian\bin\Ventrian.SimpleGallery.pdb
+C:\inetpub\wwwroot\Ventrian\bin\Ventrian.xml
+C:\inetpub\wwwroot\DNN84\bin\Ventrian.SimpleGallery.dll.config
+C:\inetpub\wwwroot\DNN84\bin\Ventrian.SimpleGallery.dll
+C:\inetpub\wwwroot\DNN84\bin\Ventrian.SimpleGallery.pdb
+C:\inetpub\wwwroot\DNN84\bin\Ventrian.xml
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\obj\Debug\Resources.resources
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\obj\Debug\Ventrian.SimpleGallery.vbproj.GenerateResource.cache
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\obj\Debug\Ventrian.SimpleGallery.vbproj.CoreCompileInputs.cache
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\obj\Debug\Ventrian.SimpleGallery.dll
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\obj\Debug\Ventrian.xml
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\obj\Debug\Ventrian.SimpleGallery.pdb

@@ -57,7 +57,22 @@ Namespace Ventrian.SimpleGallery
             If (objTemplateInfo Is Nothing) Then
                 DisplayDefault()
             Else
+                Dim objTemplateInfoHeader As TemplateInfo = objTemplateController.Get(Me.ModuleId, drpTemplates.SelectedValue & "Header")
+                Dim objTemplateInfoFooter As TemplateInfo = objTemplateController.Get(Me.ModuleId, drpTemplates.SelectedValue & "Footer")
                 txtTemplate.Text = objTemplateInfo.Template
+
+                If (objTemplateInfoHeader Is Nothing) Then
+                    txtTemplateHeader.Text = ""
+                Else
+                    txtTemplateHeader.Text = objTemplateInfoHeader.Template
+                End If
+
+                If (objTemplateInfoFooter Is Nothing) Then
+                    txtTemplateFooter.Text = ""
+                Else
+                    txtTemplateFooter.Text = objTemplateInfoFooter.Template
+                End If
+
             End If
 
         End Sub
@@ -91,13 +106,22 @@ Namespace Ventrian.SimpleGallery
         Private Sub DisplayDefault()
 
             Select Case CType(System.Enum.Parse(GetType(TemplateType), drpTemplates.SelectedValue), TemplateType)
-
+                Case TemplateType.AddToCart
+                    txtTemplate.Text = "AddToCart"
+                    txtTemplateHeader.Text = ""
+                    txtTemplateFooter.Text = ""
+                Case TemplateType.ViewCart
+                    txtTemplate.Text = "ViewCart"
+                    txtTemplateHeader.Text = ""
+                    txtTemplateFooter.Text = ""
                 Case TemplateType.AlbumInfo
                     txtTemplate.Text = Constants.DEFAULT_TEMPLATE_ALBUM_INFO
-
+                    txtTemplateHeader.Text = ""
+                    txtTemplateFooter.Text = ""
                 Case TemplateType.PhotoInfo
                     txtTemplate.Text = Constants.DEFAULT_TEMPLATE_PHOTO_INFO
-
+                    txtTemplateHeader.Text = ""
+                    txtTemplateFooter.Text = ""
                 Case TemplateType.AddToCart
                     txtTemplate.Text = "AddToCart"
 
@@ -156,6 +180,7 @@ Namespace Ventrian.SimpleGallery
                 Dim objTemplateController As New TemplateController
 
                 Dim objTemplateInfo As TemplateInfo = objTemplateController.Get(Me.ModuleId, drpTemplates.SelectedValue)
+                ''Body
 
                 If (objTemplateInfo Is Nothing) Then
                     objTemplateInfo = New TemplateInfo
@@ -171,8 +196,45 @@ Namespace Ventrian.SimpleGallery
                     objTemplateController.Update(objTemplateInfo)
 
                 End If
-
                 Dim cacheKey As String = TabModuleId.ToString() & objTemplateInfo.Name
+                DotNetNuke.Common.Utilities.DataCache.RemoveCache(cacheKey)
+                'Header
+                objTemplateInfo = objTemplateController.Get(Me.ModuleId, drpTemplates.SelectedValue & "Header")
+
+                If (objTemplateInfo Is Nothing) Then
+                    objTemplateInfo = New TemplateInfo
+
+                    objTemplateInfo.ModuleID = Me.ModuleId
+                    objTemplateInfo.Name = drpTemplates.SelectedValue & "Header"
+                    objTemplateInfo.Template = txtTemplateHeader.Text
+
+                    objTemplateController.Add(objTemplateInfo)
+                Else
+
+                    objTemplateInfo.Template = txtTemplateHeader.Text
+                    objTemplateController.Update(objTemplateInfo)
+
+                End If
+                cacheKey = TabModuleId.ToString() & objTemplateInfo.Name
+                DotNetNuke.Common.Utilities.DataCache.RemoveCache(cacheKey)
+                'Footer
+                objTemplateInfo = objTemplateController.Get(Me.ModuleId, drpTemplates.SelectedValue & "Footer")
+
+                If (objTemplateInfo Is Nothing) Then
+                    objTemplateInfo = New TemplateInfo
+
+                    objTemplateInfo.ModuleID = Me.ModuleId
+                    objTemplateInfo.Name = drpTemplates.SelectedValue & "Footer"
+                    objTemplateInfo.Template = txtTemplateFooter.Text
+
+                    objTemplateController.Add(objTemplateInfo)
+                Else
+
+                    objTemplateInfo.Template = txtTemplateFooter.Text
+                    objTemplateController.Update(objTemplateInfo)
+
+                End If
+                cacheKey = TabModuleId.ToString() & objTemplateInfo.Name
                 DotNetNuke.Common.Utilities.DataCache.RemoveCache(cacheKey)
 
             End If

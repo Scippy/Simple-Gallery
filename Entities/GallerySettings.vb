@@ -43,7 +43,25 @@ Namespace Ventrian.SimpleGallery.Entities
                 End If
             End Get
         End Property
+        Public ReadOnly Property TemplateHeader() As String
+            Get
+                If (_settings.Contains(Constants.SETTING_TEMPLATE_HEADER)) Then
+                    Return _settings(Constants.SETTING_TEMPLATE_HEADER).ToString()
+                Else
+                    Return ""
+                End If
+            End Get
+        End Property
 
+        Public ReadOnly Property TemplateFooter() As String
+            Get
+                If (_settings.Contains(Constants.SETTING_TEMPLATE_FOOTER)) Then
+                    Return _settings(Constants.SETTING_TEMPLATE_FOOTER).ToString()
+                Else
+                    Return ""
+                End If
+            End Get
+        End Property
         Public ReadOnly Property LightboxDefaultPath() As String
             Get
                 If (_settings.Contains(Constants.SETTING_LIGHTBOX_DEFAULT_PATH)) Then
@@ -524,7 +542,15 @@ Namespace Ventrian.SimpleGallery.Entities
                 End If
             End Get
         End Property
-
+        Public ReadOnly Property PublicMode() As PublicModeType
+            Get
+                If (_settings.Contains(Constants.SETTING_PUBLIC_MODE)) Then
+                    Return CType(System.Enum.Parse(GetType(PublicModeType), _settings(Constants.SETTING_PUBLIC_MODE).ToString()), PublicModeType)
+                Else
+                    Return Constants.DEFAULT_PUBLIC_MODE
+                End If
+            End Get
+        End Property
         Public ReadOnly Property RandomMode() As ModeType
             Get
                 If (_settings.Contains(Constants.SETTING_RANDOM_MODE)) Then

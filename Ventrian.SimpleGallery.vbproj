@@ -33,7 +33,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\bin\</OutputPath>
+    <OutputPath>..\..\..\DNN84\bin\</OutputPath>
     <DocumentationFile>Ventrian.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
     <WarningsAsErrors>
@@ -142,6 +142,7 @@
     <Compile Include="Common\CompressionType.vb" />
     <Compile Include="Common\Constants.vb" />
     <Compile Include="Common\AlbumSortType.vb" />
+    <Compile Include="Common\PublicModeType.vb" />
     <Compile Include="Common\TemplateType.vb" />
     <Compile Include="Common\ThumbnailType.vb" />
     <Compile Include="Common\DisplayType.vb" />
@@ -613,6 +614,7 @@
     <Content Include="DownloadPhoto.ashx" />
     <Content Include="AddToCart.ashx" />
     <Content Include="ViewCart.ashx" />
+    <Content Include="Installs\SimpleGallery.02.05.00.zip" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

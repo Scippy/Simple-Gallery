@@ -1,0 +1,12 @@
+C:\inetpub\wwwroot\Ventrian\bin\Ventrian.SimpleGallery.SqlDataProvider.dll
+C:\inetpub\wwwroot\Ventrian\bin\Ventrian.SimpleGallery.SqlDataProvider.pdb
+C:\inetpub\wwwroot\Ventrian\bin\DnnForge.SimpleGallery.SqlDataProvider.xml
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\Providers\DataProviders\SqlDataProvider\obj\Debug\Ventrian.SimpleGallery.SqlDataProvider.vbprojAssemblyReference.cache
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\Providers\DataProviders\SqlDataProvider\obj\Debug\Ventrian.SimpleGallery.SqlDataProvider.vbproj.CoreCompileInputs.cache
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\Providers\DataProviders\SqlDataProvider\obj\Debug\Ventrian.SimpleGallery.SqlDataProvider.vbproj.CopyComplete
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\Providers\DataProviders\SqlDataProvider\obj\Debug\Ventrian.SimpleGallery.SqlDataProvider.dll
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\Providers\DataProviders\SqlDataProvider\obj\Debug\DnnForge.SimpleGallery.SqlDataProvider.xml
+C:\inetpub\wwwroot\Ventrian\DesktopModules\Simple-Gallery\Providers\DataProviders\SqlDataProvider\obj\Debug\Ventrian.SimpleGallery.SqlDataProvider.pdb
+C:\inetpub\wwwroot\DNN84\bin\Ventrian.SimpleGallery.SqlDataProvider.dll
+C:\inetpub\wwwroot\DNN84\bin\Ventrian.SimpleGallery.SqlDataProvider.pdb
+C:\inetpub\wwwroot\DNN84\bin\DnnForge.SimpleGallery.SqlDataProvider.xml

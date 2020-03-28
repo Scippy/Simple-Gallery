@@ -31,10 +31,24 @@
 			                        <asp:DropDownList ID="drpTemplates" Runat="server" AutoPostBack="True" Width="300" />
 		                        </td>
 	                        </tr>
+							<tr>
+		                        <td class="SubHead" width="150">Header</td>
+		                        <td align="left">
+			                        <asp:textbox id="txtTemplateHeader" runat="server" cssclass="NormalTextBox" width="300" rows="20"
+				                        textmode="MultiLine"></asp:textbox>
+		                        </td>
+	                        </tr>
 	                        <tr>
 		                        <td class="SubHead" width="150"><dnn:label id="plTemplateBody" runat="server" controlname="txtTemplateBody" suffix=":"></dnn:label></td>
 		                        <td align="left">
 			                        <asp:textbox id="txtTemplate" runat="server" cssclass="NormalTextBox" width="300" rows="20"
+				                        textmode="MultiLine"></asp:textbox>
+		                        </td>
+	                        </tr>
+							<tr>
+		                        <td class="SubHead" width="150">Footer</td>
+		                        <td align="left">
+			                        <asp:textbox id="txtTemplateFooter" runat="server" cssclass="NormalTextBox" width="300" rows="20"
 				                        textmode="MultiLine"></asp:textbox>
 		                        </td>
 	                        </tr>

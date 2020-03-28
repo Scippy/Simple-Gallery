@@ -85,6 +85,12 @@ GO
 DROP PROCEDURE {databaseOwner}{objectQualifier}DnnForge_SimpleGallery_AlbumDelete
 GO
 
+DROP PROCEDURE {databaseOwner}{objectQualifier}DnnForge_SimpleGallery_PhotoListLatest
+GO
+
+DROP PROCEDURE {databaseOwner}{objectQualifier}DnnForge_SimpleGallery_GetRandomPhotoPublicOrPrivate
+GO
+
 DROP TABLE {databaseOwner}{objectQualifier}DnnForge_SimpleGallery_PhotoTag
 GO
 

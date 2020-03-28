@@ -41,7 +41,11 @@ Namespace Ventrian.SimpleGallery.Entities
             Return CBO.FillCollection(DataProvider.Instance().GetRandomPhoto(moduleID, albumID, rowCount, tagID), GetType(PhotoInfo))
 
         End Function
+        Public Function GetRandomPhotoPublicOrPrivate(ByVal moduleID As Integer, ByVal albumID As Integer, ByVal rowCount As Integer, ByVal tagID As Integer, ByVal isPublic As Boolean) As ArrayList
 
+            Return CBO.FillCollection(DataProvider.Instance().GetRandomPhotoPublicOrPrivate(moduleID, albumID, rowCount, tagID, isPublic), GetType(PhotoInfo))
+
+        End Function
         Public Function List(ByVal moduleID As Integer, ByVal albumID As Integer, ByVal isApproved As Boolean, ByVal maxCount As Integer, ByVal showAll As Boolean, ByVal tagID As Integer, ByVal batchID As String, ByVal search As String, ByVal sortBy As Common.SortType, ByVal sortDirection As Common.SortDirection) As ArrayList
 
             Dim sort As Integer = Null.NullInteger
@@ -83,6 +87,46 @@ Namespace Ventrian.SimpleGallery.Entities
 
         End Function
 
+        Public Function ListLatest(ByVal moduleID As Integer, ByVal albumID As Integer, ByVal isApproved As Boolean, ByVal maxCount As Integer, ByVal showAll As Boolean, ByVal tagID As Integer, ByVal batchID As String, ByVal search As String, ByVal sortBy As Common.SortType, ByVal sortDirection As Common.SortDirection, ByVal isPublic As Boolean) As ArrayList
+
+            Dim sort As Integer = Null.NullInteger
+
+            Select Case sortBy
+                Case Common.SortType.Name
+                    sort = 0
+                    Exit Select
+
+                Case Common.SortType.DateCreated
+                    sort = 1
+                    Exit Select
+
+                Case Common.SortType.DateApproved
+                    sort = 2
+                    Exit Select
+
+                Case Common.SortType.FileName
+                    sort = 3
+                    Exit Select
+
+            End Select
+
+            Dim sortOrder As Integer
+
+            Select Case sortDirection
+
+                Case Common.SortDirection.DESC
+                    sortOrder = 0
+                    Exit Select
+
+                Case Common.SortDirection.ASC
+                    sortOrder = 1
+                    Exit Select
+
+            End Select
+
+            Return CBO.FillCollection(DataProvider.Instance().PhotoListLatest(moduleID, albumID, isApproved, maxCount, showAll, tagID, batchID, search, sort, sortOrder, isPublic), GetType(PhotoInfo))
+
+        End Function
         Public Function Add(ByVal objPhoto As PhotoInfo) As Integer
 
             'AlbumController.ClearCache()

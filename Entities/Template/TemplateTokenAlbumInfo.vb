@@ -11,6 +11,7 @@ Namespace Ventrian.SimpleGallery.Entities
         ALBUM
         ALBUMCOUNT
         ALBUMLINK
+        ALBUMPHOTOURL
         ALBUMWITHBORDER
         DATECREATED
         DESCRIPTION

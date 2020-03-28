@@ -56,7 +56,16 @@ Namespace Ventrian.SimpleGallery
             Next
 
         End Sub
+        Private Sub BindPublicMode()
 
+            For Each value As Integer In System.Enum.GetValues(GetType(PublicModeType))
+                Dim li As New ListItem
+                li.Value = System.Enum.GetName(GetType(PublicModeType), value)
+                li.Text = Localization.GetString(System.Enum.GetName(GetType(PublicModeType), value), Me.LocalResourceFile)
+                rdoPublicMode.Items.Add(li)
+            Next
+
+        End Sub
         Private Sub BindDisplay()
 
             For Each value As Integer In System.Enum.GetValues(GetType(DisplayType))
@@ -162,7 +171,25 @@ Namespace Ventrian.SimpleGallery
 
                 Dim values As String() = drpModuleID.SelectedValue.Split(Convert.ToChar("-"))
 
-                drpAlbums.DataSource = objAlbumController.List(Convert.ToInt32(values(1)), Null.NullInteger, True, True, AlbumSortType.Caption, SortDirection.ASC)
+                Dim ShowPublicOnly As Boolean = True
+
+                'Controllo se c'è un setting nel caso del primo caricamento
+                If (Settings.Contains(Constants.SETTING_PUBLIC_MODE)) Then
+                    If Settings(Constants.SETTING_PUBLIC_MODE).ToString() <> PublicModeType.ShowPublic.ToString() Then
+                        ShowPublicOnly = False
+                    End If
+                End If
+                'Se c'è ua variazione nel valore selezionato sovrascrivo il setting
+                If Not (rdoPublicMode.SelectedValue = "") Then
+                    If rdoPublicMode.SelectedValue.ToString() = PublicModeType.ShowPublic.ToString() Then
+                        ShowPublicOnly = True
+                    Else
+                        ShowPublicOnly = False
+                    End If
+                End If
+
+
+                drpAlbums.DataSource = objAlbumController.List(Convert.ToInt32(values(1)), Null.NullInteger, ShowPublicOnly, True, AlbumSortType.Caption, SortDirection.ASC)
                 drpAlbums.DataBind()
 
                 drpAlbums.Items.Insert(0, New ListItem(Localization.GetString("AllAlbums", Me.LocalResourceFile), "-1"))
@@ -267,6 +294,10 @@ Namespace Ventrian.SimpleGallery
                 rdoMode.SelectedValue = Me.GallerySettings.RandomMode.ToString()
             End If
 
+            If Not (rdoPublicMode.Items.FindByValue(Me.GallerySettings.PublicMode.ToString()) Is Nothing) Then
+                rdoPublicMode.SelectedValue = Me.GallerySettings.PublicMode.ToString()
+            End If
+
             If Not (rdoDisplay.Items.FindByValue(Me.GallerySettings.RandomDisplay.ToString()) Is Nothing) Then
                 rdoDisplay.SelectedValue = Me.GallerySettings.RandomDisplay.ToString()
             End If
@@ -294,6 +325,9 @@ Namespace Ventrian.SimpleGallery
 
             txtPhotoTemplate.Text = Me.GallerySettings.RandomTemplate
             txtAlbumTemplate.Text = Me.GallerySettings.RandomTemplateAlbum
+
+            txtTemplateHeader.Text = Me.GallerySettings.TemplateHeader
+            txtTemplateFooter.Text = Me.GallerySettings.TemplateFooter
 
             chkLaunchSlideshow.Checked = Me.GallerySettings.RandomLaunchSlideshow
             chkAlbumSlideshow.Checked = Me.GallerySettings.RandomAlbumSlideshow
@@ -340,6 +374,7 @@ Namespace Ventrian.SimpleGallery
             objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_RANDOM_PHOTO_ALBUM_ID, drpAlbums.SelectedValue)
             objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_BORDER_STYLE, drpBorderStyle.SelectedValue)
             objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_RANDOM_MODE, rdoMode.SelectedValue)
+            objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_PUBLIC_MODE, rdoPublicMode.SelectedValue)
             objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_RANDOM_DISPLAY, rdoDisplay.SelectedValue)
             objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_RANDOM_MAX_COUNT, txtMaxCount.Text)
 
@@ -364,6 +399,8 @@ Namespace Ventrian.SimpleGallery
             End If
             objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_RANDOM_TEMPLATE, txtPhotoTemplate.Text)
             objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_RANDOM_TEMPLATE_ALBUM, txtAlbumTemplate.Text)
+            objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_TEMPLATE_HEADER, txtTemplateHeader.Text)
+            objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_TEMPLATE_FOOTER, txtTemplateFooter.Text)
             objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_RANDOM_COMPRESSION, drpCompressionType.SelectedValue)
             objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_RANDOM_THUMBNAIL, rdoThumbnailType.SelectedValue)
             objModuleController.UpdateTabModuleSetting(Me.TabModuleId, Constants.SETTING_RANDOM_LAUNCH_SLIDESHOW, chkLaunchSlideshow.Checked.ToString())
@@ -438,6 +475,7 @@ Namespace Ventrian.SimpleGallery
                 If (IsPostBack = False) Then
 
                     BindModes()
+                    BindPublicMode()
                     BindDisplay()
                     BindRepeatDirection()
                     BindModules()
@@ -468,7 +506,14 @@ Namespace Ventrian.SimpleGallery
             End Try
 
         End Sub
+        Protected Sub rdoPublicMode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdoPublicMode.SelectedIndexChanged
+            Try
 
+                BindAlbums()
+            Catch exc As Exception 'Module failed to load
+                ProcessModuleLoadException(Me, exc)
+            End Try
+        End Sub
 #End Region
 
     End Class

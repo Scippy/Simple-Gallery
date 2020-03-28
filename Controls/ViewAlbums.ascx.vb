@@ -21,6 +21,8 @@ Namespace Ventrian.SimpleGallery.Controls
 
         Private _albumID As Integer = Null.NullInteger
         Private _albumTemplate As String = ""
+        Private _albumTemplateHeader As String = ""
+        Private _albumTemplateFooter As String = ""
         Private _albumTemplateTokens As String()
 
 #End Region
@@ -47,6 +49,20 @@ Namespace Ventrian.SimpleGallery.Controls
             dlAlbum.DataSource = objAlbumController.List(SimpleGalleryBase.ModuleId, _albumID, Not SimpleGalleryBase.HasEditPermissions(), False, SimpleGalleryBase.GallerySettings.AlbumSortBy, SimpleGalleryBase.GallerySettings.AlbumSortDirection)
             dlAlbum.DataBind()
 
+            If dlAlbum.DataSource.count > 0 Then
+                'Carico Header
+                Dim objLiteralHeader As New Literal
+                objLiteralHeader.ID = Globals.CreateValidID("AlbumHeader")
+                objLiteralHeader.Text = _albumTemplateHeader
+                dlAlbumHeader.Controls.Add(objLiteralHeader)
+                'fine Header
+                'Carico Footer
+                Dim objLiteralFooter As New Literal
+                objLiteralFooter.ID = Globals.CreateValidID("AlbumFooter")
+                objLiteralFooter.Text = _albumTemplateFooter
+                dlAlbumFooter.Controls.Add(objLiteralFooter)
+                'fine footer
+            End If
         End Sub
 
         Protected Function GetAlbumCount(ByVal dataItem As Object) As String
@@ -82,6 +98,23 @@ Namespace Ventrian.SimpleGallery.Controls
             Else
                 Return ""
             End If
+
+        End Function
+
+        Protected Function GetAlbumPhotoLink(ByVal albumID As String, ByVal homeDirectory As String) As String
+
+            Dim objSettings As New Hashtable
+
+            Dim objPhotoController As New PhotoController
+            Dim objPhoto As PhotoInfo
+            objPhoto = objPhotoController.GetFirstFromAlbum(Convert.ToInt32(albumID), SimpleGalleryBase.ModuleId)
+            If objPhoto Is Nothing Then
+                Return ""
+            Else
+
+                Return objPhoto.FileName
+            End If
+
 
         End Function
 
@@ -235,6 +268,36 @@ Namespace Ventrian.SimpleGallery.Controls
                 DataCache.SetCache(cacheKey, objTemplate)
             End If
 
+            'Header
+            Dim cacheKeyHeader As String = SimpleGalleryBase.TabModuleId.ToString() & TemplateType.AlbumInfo.ToString() & "Header"
+            Dim objTemplateHeader As TemplateInfo = CType(DataCache.GetCache(cacheKeyHeader), TemplateInfo)
+            If (objTemplateHeader Is Nothing) Then
+                Dim objTemplateController As New TemplateController
+                objTemplateHeader = objTemplateController.Get(SimpleGalleryBase.ModuleId, TemplateType.AlbumInfo.ToString() & "Header")
+
+                If (objTemplateHeader Is Nothing) Then
+                    objTemplateHeader = New TemplateInfo
+                    objTemplateHeader.Template = ""
+                End If
+                DataCache.SetCache(cacheKeyHeader, objTemplateHeader)
+            End If
+            'Footer
+            Dim cacheKeyFooter As String = SimpleGalleryBase.TabModuleId.ToString() & TemplateType.AlbumInfo.ToString() & "Footer"
+            Dim objTemplateFooter As TemplateInfo = CType(DataCache.GetCache(cacheKeyFooter), TemplateInfo)
+            If (objTemplateFooter Is Nothing) Then
+                Dim objTemplateController As New TemplateController
+                objTemplateFooter = objTemplateController.Get(SimpleGalleryBase.ModuleId, TemplateType.AlbumInfo.ToString() & "Footer")
+
+                If (objTemplateFooter Is Nothing) Then
+                    objTemplateFooter = New TemplateInfo
+                    objTemplateFooter.Template = ""
+                End If
+                DataCache.SetCache(cacheKeyFooter, objTemplateFooter)
+            End If
+
+            _albumTemplateHeader = objTemplateHeader.Template
+            _albumTemplateFooter = objTemplateFooter.Template
+
             _albumTemplate = objTemplate.Template
             _albumTemplateTokens = objTemplate.Tokens
 
@@ -321,6 +384,19 @@ Namespace Ventrian.SimpleGallery.Controls
                                     objLiteral.ID = Globals.CreateValidID("Album" & objAlbum.AlbumID.ToString() & "-" & iPtr.ToString())
                                     objLiteral.Text = "<img src=""" & objSettings("AlbumPath").ToString() & """ class=""photo_198"" alt=""" & GetAlternateTextForAlbum(objAlbum) & """ width=""" & objSettings("AlbumWidth").ToString() & """ height=""" & objSettings("AlbumHeight").ToString() & """>"
                                     phAlbum.Controls.Add(objLiteral)
+                                Case "ALBUMPHOTOURL"
+                                    Dim objSettings As Hashtable = GetAlbumPath(objAlbum.AlbumID.ToString(), objAlbum.HomeDirectory)
+                                    Dim objLiteral As New Literal
+                                    objLiteral.ID = Globals.CreateValidID("Album" & objAlbum.AlbumID.ToString() & "-" & iPtr.ToString())
+                                    objLiteral.Text = objSettings("AlbumPath").ToString()
+                                    phAlbum.Controls.Add(objLiteral)
+                                    'Dim objSPhotoUrl As String = GetAlbumPhotoLink(objAlbum.AlbumID.ToString(), objAlbum.HomeDirectory)
+                                    'Dim objLiteral As New Literal
+                                    'objLiteral.ID = Globals.CreateValidID("Album" & objAlbum.AlbumID.ToString() & "-" & iPtr.ToString())
+                                    'If objSPhotoUrl <> "" Then
+                                    '    objLiteral.Text = SimpleGalleryBase.PortalSettings.HomeDirectory & objAlbum.HomeDirectory & "/" & objSPhotoUrl
+                                    '    phAlbum.Controls.Add(objLiteral)
+                                    'End If
                                 Case "ALBUMCOUNT"
                                     Dim objLiteral As New Literal
                                     objLiteral.ID = Globals.CreateValidID("Album" & objAlbum.AlbumID.ToString() & "-" & iPtr.ToString())

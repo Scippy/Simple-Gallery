@@ -28,6 +28,8 @@ Namespace Ventrian.SimpleGallery
         Private _albumID As Integer = Null.NullInteger
 
         Private _template As String = ""
+        Private _templateHeader As String = ""
+        Private _templateFooter As String = ""
         Private _templateTokens As String()
 
         Private _linkedGallerySettings As GallerySettings
@@ -87,7 +89,22 @@ Namespace Ventrian.SimpleGallery
             End If
 
         End Function
+        Protected Function GetAlbumPhotoLink(ByVal albumID As String, ByVal homeDirectory As String) As String
 
+            Dim objSettings As New Hashtable
+
+            Dim objPhotoController As New PhotoController
+            Dim objPhoto As PhotoInfo
+            objPhoto = objPhotoController.GetFirstFromAlbum(Convert.ToInt32(albumID), ModuleId)
+            If objPhoto Is Nothing Then
+                Return ""
+            Else
+
+                Return objPhoto.FileName
+            End If
+
+
+        End Function
         Private Function GetAlbumPath(ByVal albumID As String, ByVal moduleID As Integer, ByVal homeDirectory As String) As Hashtable
 
             Dim objSettings As New Hashtable
@@ -263,7 +280,8 @@ Namespace Ventrian.SimpleGallery
                 _template = Me.GallerySettings.RandomTemplate
                 _templateTokens = Me.GallerySettings.RandomTemplate.Split(delimiter)
             End If
-
+            _templateHeader = Me.GallerySettings.TemplateHeader
+            _templateFooter = Me.GallerySettings.TemplateFooter
         End Sub
 
         Private Function RssUrl(ByVal albumID As String) As String
@@ -433,7 +451,15 @@ Namespace Ventrian.SimpleGallery
                     Dim objPhotos As ArrayList
 
                     If (Me.GallerySettings.RandomMode = ModeType.Random) Then
-                        objPhotos = objPhotoController.GetRandomPhoto(_moduleID, _albumID, Me.GallerySettings.RandomMaxCount, Me.GallerySettings.RandomTagFilter)
+
+                        Select Case Me.GallerySettings.PublicMode
+                            Case PublicModeType.ShowPublic
+                                objPhotos = objPhotoController.GetRandomPhotoPublicOrPrivate(_moduleID, _albumID, Me.GallerySettings.RandomMaxCount, Me.GallerySettings.RandomTagFilter, True)
+                            Case PublicModeType.ShowPrivate
+                                objPhotos = objPhotoController.GetRandomPhotoPublicOrPrivate(_moduleID, _albumID, Me.GallerySettings.RandomMaxCount, Me.GallerySettings.RandomTagFilter, False)
+                            Case Else
+                                objPhotos = objPhotoController.GetRandomPhoto(_moduleID, _albumID, Me.GallerySettings.RandomMaxCount, Me.GallerySettings.RandomTagFilter)
+                        End Select
 
                         If (GallerySettings.RandomTemplateMode = TemplateModeType.Simple) Then
                             dlGallery.DataSource = objPhotos
@@ -443,12 +469,27 @@ Namespace Ventrian.SimpleGallery
                             rptGallery.DataBind()
                         End If
                     Else
-                        If (Me.GallerySettings.RandomMode = ModeType.Latest) Then
-                            objPhotos = objPhotoController.List(_moduleID, _albumID, True, Null.NullInteger, False, Me.GallerySettings.RandomTagFilter, Null.NullString(), Null.NullString, SortType.DateApproved, SortDirection.DESC)
-                        Else
-                            objPhotos = objPhotoController.List(_moduleID, _albumID, True, Null.NullInteger, False, Me.GallerySettings.RandomTagFilter, Null.NullString(), Null.NullString, SortType.Name, SortDirection.DESC)
-                        End If
-                       
+                        Select Case Me.GallerySettings.PublicMode
+                            Case PublicModeType.ShowPublic
+                                If (Me.GallerySettings.RandomMode = ModeType.Latest) Then
+                                    objPhotos = objPhotoController.ListLatest(_moduleID, _albumID, True, Null.NullInteger, False, Me.GallerySettings.RandomTagFilter, Null.NullString(), Null.NullString, SortType.DateApproved, SortDirection.DESC, True)
+                                Else
+                                    objPhotos = objPhotoController.ListLatest(_moduleID, _albumID, True, Null.NullInteger, False, Me.GallerySettings.RandomTagFilter, Null.NullString(), Null.NullString, SortType.Name, SortDirection.DESC, True)
+                                End If
+                            Case PublicModeType.ShowPrivate
+                                If (Me.GallerySettings.RandomMode = ModeType.Latest) Then
+                                    objPhotos = objPhotoController.ListLatest(_moduleID, _albumID, True, Null.NullInteger, False, Me.GallerySettings.RandomTagFilter, Null.NullString(), Null.NullString, SortType.DateApproved, SortDirection.DESC, False)
+                                Else
+                                    objPhotos = objPhotoController.ListLatest(_moduleID, _albumID, True, Null.NullInteger, False, Me.GallerySettings.RandomTagFilter, Null.NullString(), Null.NullString, SortType.Name, SortDirection.DESC, False)
+                                End If
+                            Case Else
+                                If (Me.GallerySettings.RandomMode = ModeType.Latest) Then
+                                    objPhotos = objPhotoController.List(_moduleID, _albumID, True, Null.NullInteger, False, Me.GallerySettings.RandomTagFilter, Null.NullString(), Null.NullString, SortType.DateApproved, SortDirection.DESC)
+                                Else
+                                    objPhotos = objPhotoController.List(_moduleID, _albumID, True, Null.NullInteger, False, Me.GallerySettings.RandomTagFilter, Null.NullString(), Null.NullString, SortType.Name, SortDirection.DESC)
+                                End If
+                        End Select
+
                         Dim objPagedDataSource As New PagedDataSource
 
                         objPagedDataSource.DataSource = objPhotos
@@ -506,7 +547,19 @@ Namespace Ventrian.SimpleGallery
                     End If
 
                 End If
-
+                'Carico Header
+                Dim objLiteralHeader As New Literal
+                objLiteralHeader.ID = Globals.CreateValidID("GalleryHeader")
+                objLiteralHeader.Text = _templateHeader
+                dlGalleryHeader.Controls.Add(objLiteralHeader)
+                'fine header
+                'Gallery Footer
+                'Carico Footer
+                Dim objLiteralFooter As New Literal
+                objLiteralFooter.ID = Globals.CreateValidID("GalleryFooter")
+                objLiteralFooter.Text = _templateFooter
+                dlGalleryFooter.Controls.Add(objLiteralFooter)
+                'fine footer
             Catch exc As Exception
                 ProcessModuleLoadException(Me, exc)
             End Try
@@ -1084,6 +1137,19 @@ Namespace Ventrian.SimpleGallery
                             objLiteral.ID = Globals.CreateValidID("Article" & objAlbum.AlbumID.ToString() & "-" & iPtr.ToString())
                             objLiteral.Text = "<img src=""" & objSettings("AlbumPath").ToString() & """ class=""photo_198"" alt=""" & GetAlternateTextForAlbum(objAlbum) & """ width=""" & objSettings("AlbumWidth").ToString() & """ height=""" & objSettings("AlbumHeight").ToString() & """>"
                             phPhoto.Controls.Add(objLiteral)
+                        Case "ALBUMPHOTOURL"
+                            Dim objSettings As Hashtable = GetAlbumPath(objAlbum.AlbumID.ToString(), objAlbum.ModuleID, objAlbum.HomeDirectory)
+                            Dim objLiteral As New Literal
+                            objLiteral.ID = Globals.CreateValidID("Article" & objAlbum.AlbumID.ToString() & "-" & iPtr.ToString())
+                            objLiteral.Text = objSettings("AlbumPath").ToString()
+                            phPhoto.Controls.Add(objLiteral)
+                            'Dim objSPhotoUrl As String = GetAlbumPhotoLink(objAlbum.AlbumID.ToString(), objAlbum.HomeDirectory)
+                            'Dim objLiteral As New Literal
+                            'objLiteral.ID = Globals.CreateValidID("Album" & objAlbum.AlbumID.ToString() & "-" & iPtr.ToString())
+                            'If objSPhotoUrl <> "" Then
+                            '    objLiteral.Text = PortalSettings.HomeDirectory & objAlbum.HomeDirectory & "/" & objSPhotoUrl
+                            '    phPhoto.Controls.Add(objLiteral)
+                            'End If
                         Case "ALBUMCOUNT"
                             Dim objLiteral As New Literal
                             objLiteral.ID = Globals.CreateValidID("Article" & objAlbum.AlbumID.ToString() & "-" & iPtr.ToString())

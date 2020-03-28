@@ -26,6 +26,8 @@ Namespace Ventrian.SimpleGallery.Controls
         Private _tag As TagInfo
         Private _pageNumber As Integer = 0
         Private _photoTemplate As String = ""
+        Private _photoTemplateHeader As String = ""
+        Private _photoTemplateFooter As String = ""
         Private _photoTemplateTokens As String()
 
 #End Region
@@ -195,6 +197,22 @@ Namespace Ventrian.SimpleGallery.Controls
 
                 dlGallery.DataSource = objPagedDataSource
                 dlGallery.DataBind()
+
+                If dlGallery.DataSource.count > 0 Then
+                    'Carico Header
+                    Dim objLiteralHeader As New Literal
+                    objLiteralHeader.ID = Globals.CreateValidID("GalleryHeader")
+                    objLiteralHeader.Text = _photoTemplateHeader
+                    dlGalleryHeader.Controls.Add(objLiteralHeader)
+                    'fine header
+                    'Gallery Footer
+                    'Carico Footer
+                    Dim objLiteralFooter As New Literal
+                    objLiteralFooter.ID = Globals.CreateValidID("GalleryFooter")
+                    objLiteralFooter.Text = _photoTemplateFooter
+                    dlGalleryFooter.Controls.Add(objLiteralFooter)
+                    'fine footer
+                End If
 
             End If
 
@@ -437,7 +455,32 @@ Namespace Ventrian.SimpleGallery.Controls
 
                 DataCache.SetCache(cacheKey, objTemplate)
             End If
+            Dim cacheKeyHeader As String = SimpleGalleryBase.TabModuleId.ToString() & TemplateType.PhotoInfo.ToString() & "Header"
+            Dim objTemplateHeader As TemplateInfo = CType(DataCache.GetCache(cacheKeyHeader), TemplateInfo)
+            If (objTemplateHeader Is Nothing) Then
+                Dim objTemplateController As New TemplateController
+                objTemplateHeader = objTemplateController.Get(SimpleGalleryBase.ModuleId, TemplateType.PhotoInfo.ToString() & "Header")
+                If (objTemplateHeader Is Nothing) Then
+                    objTemplateHeader = New TemplateInfo
+                    objTemplateHeader.Template = ""
+                End If
+                DataCache.SetCache(cacheKeyHeader, objTemplateHeader)
+            End If
 
+            Dim cacheKeyFooter As String = SimpleGalleryBase.TabModuleId.ToString() & TemplateType.PhotoInfo.ToString() & "Footer"
+            Dim objTemplateFooter As TemplateInfo = CType(DataCache.GetCache(cacheKeyFooter), TemplateInfo)
+            If (objTemplateFooter Is Nothing) Then
+                Dim objTemplateController As New TemplateController
+                objTemplateFooter = objTemplateController.Get(SimpleGalleryBase.ModuleId, TemplateType.PhotoInfo.ToString() & "Footer")
+                If (objTemplateFooter Is Nothing) Then
+                    objTemplateFooter = New TemplateInfo
+                    objTemplateFooter.Template = ""
+                End If
+                DataCache.SetCache(cacheKeyFooter, objTemplateFooter)
+            End If
+
+            _photoTemplateHeader = objTemplateHeader.Template
+            _photoTemplateFooter = objTemplateFooter.Template
             _photoTemplate = objTemplate.Template
             _photoTemplateTokens = objTemplate.Tokens
 

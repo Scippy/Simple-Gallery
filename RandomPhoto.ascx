@@ -25,10 +25,12 @@
 </style>
 </asp:PlaceHolder>
 <asp:PlaceHolder ID="phLightboxTop" runat="Server" />
+<asp:PlaceHolder ID="dlGalleryHeader" Runat="server" EnableViewState="False" />
 <asp:datalist id="dlGallery" runat="server" RepeatColumns="3" HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Center" CssClass="RandomView" EnableViewState="False">
 <ItemTemplate>
 	<asp:PlaceHolder ID="phPhoto" Runat="server" />
 </ItemTemplate>
 </asp:datalist>
 <asp:Repeater ID="rptGallery" runat="server"><ItemTemplate><asp:PlaceHolder ID="phPhoto" Runat="server" /></ItemTemplate></asp:Repeater>
+<asp:PlaceHolder ID="dlGalleryFooter" Runat="server" EnableViewState="False" />
 <asp:PlaceHolder ID="phLightboxBottom" runat="Server" />

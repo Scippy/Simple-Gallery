@@ -14,6 +14,7 @@
 .album-frame .bot---x- {background-image: url(<%= ResolveUrl("../images/borders/" & BorderStyle & "/album-bstretch.gif") %>);}
 </style>
 
+<asp:PlaceHolder ID="dlAlbumHeader" Runat="server" EnableViewState="False" />
 <asp:DataList ID="dlAlbum" runat="Server" cssclass="view" repeatColumns="2"
     repeatdirection="Horizontal" borderwidth="0" cellpadding="0" cellspacing="0" EnableViewState="False" ItemStyle-HorizontalAlign="Center" HorizontalAlign="Center">
     <ItemStyle cssClass="album-item" VerticalAlign="Top" />
@@ -21,3 +22,4 @@
 		<asp:PlaceHolder ID="phAlbum" Runat="server" EnableViewState="False" />
     </ItemTemplate>
 </asp:DataList>
+<asp:PlaceHolder ID="dlAlbumFooter" Runat="server" EnableViewState="False" />
