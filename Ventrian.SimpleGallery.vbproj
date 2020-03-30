@@ -33,7 +33,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\DNN84\bin\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <DocumentationFile>Ventrian.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
     <WarningsAsErrors>
@@ -180,6 +180,13 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Entities\Template\TemplateTokenAddToCartInfo.vb" />
+    <Compile Include="Uploader.aspx.designer.vb">
+      <DependentUpon>Uploader.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Uploader.aspx.vb">
+      <DependentUpon>Uploader.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="ViewCart.ashx.vb">
       <DependentUpon>ViewCart.ashx</DependentUpon>
     </Compile>
@@ -588,6 +595,7 @@
   <ItemGroup>
     <Content Include="Images\gallery.png" />
     <Content Include="SearchBox.ascx" />
+    <Content Include="Uploader.aspx" />
     <Content Include="ViewSearch.ascx" />
     <Content Include="ImageHandler.ashx" />
     <Content Include="Images\SWFUpload\error.gif" />

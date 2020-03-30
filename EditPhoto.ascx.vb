@@ -566,6 +566,42 @@ Namespace Ventrian.SimpleGallery
 
         End Sub
 
+        Private Sub cmdRotate90_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdRotate90.Click
+            Try
+                Dim objPhoto As New PhotoInfo
+                Dim objPhotoController As New PhotoController
+                If Not (Null.IsNull(_itemID)) Then
+                    objPhoto = objPhotoController.Get(_itemID)
+                    If Not (objPhoto Is Nothing) Then
+                        If (objPhoto.AlbumID = Convert.ToInt32(drpAlbums.SelectedValue)) Then
+                            Dim originalFileName As String = objPhoto.FileName
+                            Dim originalFilePath As String = GetFilePath(objPhoto.AlbumID)
+                            Dim fileExtension As String = ExtractFileExtension(originalFileName)
+                            Using photo As Image = Drawing.Image.FromFile(originalFilePath & originalFileName)
+                                photo.RotateFlip(Drawing.RotateFlipType.Rotate90FlipNone)
+                                Select Case fileExtension.ToLower()
+                                    Case "jpg", "jpeg"
+                                        photo.Save(originalFilePath & originalFileName, Drawing.Imaging.ImageFormat.Jpeg)
+                                    Case "gif"
+                                        photo.Save(originalFilePath & originalFileName, Drawing.Imaging.ImageFormat.Gif)
+                                    Case "png"
+                                        photo.Save(originalFilePath & originalFileName, Drawing.Imaging.ImageFormat.Png)
+                                    Case "bmp"
+                                        photo.Save(originalFilePath & originalFileName, Drawing.Imaging.ImageFormat.Bmp)
+                                    Case Else
+                                        photo.Save(originalFilePath & originalFileName, Drawing.Imaging.ImageFormat.Jpeg)
+                                End Select
+                                photo.Dispose()
+                            End Using
+                        End If
+                    End If
+                End If
+            Catch exc As Exception    'Module failed to load
+                ProcessModuleLoadException(Me, exc)
+            End Try
+
+        End Sub
+
         Private Sub cmdCancelReplace_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCancelReplace.Click
 
             phReplace.Visible = True

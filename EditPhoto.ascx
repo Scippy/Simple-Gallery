@@ -57,7 +57,8 @@
 		                        <tr>
 		                            <td><asp:Literal ID="litPhoto" runat="server" /></td>
 		                            <td valign="middle">
-		                                <asp:linkbutton id="cmdReplace" resourcekey="cmdReplace" runat="server" CssClass="CommandButton" Text="Replace Photo" BorderStyle="none" CausesValidation="false"></asp:linkbutton>
+		                                <asp:linkbutton id="cmdReplace" resourcekey="cmdReplace" runat="server" CssClass="CommandButton" Text="Replace Photo" BorderStyle="none" CausesValidation="false"></asp:linkbutton> | 
+                                        <asp:linkbutton id="cmdRotate90" resourcekey="cmdRotate90" runat="server" CssClass="CommandButton" Text="Rotate" BorderStyle="none" CausesValidation="false"></asp:linkbutton>
 		                            </td>
 		                        </tr>
 		                        </table>

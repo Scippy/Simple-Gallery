@@ -24,6 +24,15 @@ Namespace Ventrian.SimpleGallery
         Protected WithEvents ucGalleryMenu As Global.Ventrian.SimpleGallery.Controls.GalleryMenu
         
         '''<summary>
+        '''exifScripts control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents exifScripts As Global.System.Web.UI.WebControls.PlaceHolder
+        
+        '''<summary>
         '''imgStep control.
         '''</summary>
         '''<remarks>
@@ -231,6 +240,15 @@ Namespace Ventrian.SimpleGallery
         Protected WithEvents fupFile As Global.System.Web.UI.WebControls.FileUpload
         
         '''<summary>
+        '''rexp control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents rexp As Global.System.Web.UI.WebControls.RegularExpressionValidator
+        
+        '''<summary>
         '''btnUploadFiles control.
         '''</summary>
         '''<remarks>
@@ -238,6 +256,15 @@ Namespace Ventrian.SimpleGallery
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents btnUploadFiles As Global.System.Web.UI.WebControls.Button
+        
+        '''<summary>
+        '''Button1 control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
         
         '''<summary>
         '''addedPhotosRepeater control.
@@ -301,6 +328,33 @@ Namespace Ventrian.SimpleGallery
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents cmdCancel As Global.System.Web.UI.WebControls.LinkButton
+        
+        '''<summary>
+        '''LinkButton1 control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents LinkButton1 As Global.System.Web.UI.WebControls.LinkButton
+        
+        '''<summary>
+        '''ImageButton1 control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ImageButton1 As Global.System.Web.UI.WebControls.ImageButton
+        
+        '''<summary>
+        '''cmdNext2 control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents cmdNext2 As Global.System.Web.UI.WebControls.Button
         
         '''<summary>
         '''cmdNext control.
